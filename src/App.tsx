@@ -1,8 +1,84 @@
-
-import { Download, MapPin, MessageCircle, Heart, Share2, Compass, ArrowRight } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Download, MapPin, MessageCircle, Heart, Compass, ArrowRight, Camera } from 'lucide-react';
 import './index.css';
 
 function App() {
+  const [activeTab, setActiveTab] = useState('feed');
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+    
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    
+    return () => observer.disconnect();
+  }, []);
+
+  const renderScreen = () => {
+    switch(activeTab) {
+      case 'map':
+        return (
+          <div className="device-screen">
+            <div className="screen-header">
+              <MapPin size={20} color="#03dac6" /> Nearby Trends
+            </div>
+            <div className="screen-body" style={{ padding: 0 }}>
+              <div className="mock-map">
+                <MapPin size={40} className="mock-pin" />
+              </div>
+            </div>
+          </div>
+        );
+      case 'chat':
+        return (
+          <div className="device-screen">
+            <div className="screen-header">
+              <MessageCircle size={20} color="#bb86fc" /> Real-time Chat
+            </div>
+            <div className="screen-body">
+              <div className="mock-chat-bubble">Hey! Are you going to the concert downtown?</div>
+              <div className="mock-chat-bubble right">Yes! It's super crowded here.</div>
+              <div className="mock-chat-bubble">I'm on my way! 🏃</div>
+            </div>
+          </div>
+        );
+      case 'feed':
+      default:
+        return (
+          <div className="device-screen">
+            <div className="screen-header">
+              <Compass size={20} color="#bb86fc" /> Global Feed
+            </div>
+            <div className="screen-body">
+              <div className="mock-post">
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                  <div className="mock-avatar"></div>
+                  <div>
+                    <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Alex_dev</div>
+                    <div style={{ fontSize: '0.75rem', color: '#a0a0ab' }}>2 mins ago • New York</div>
+                  </div>
+                </div>
+                <div className="mock-image"></div>
+                <div style={{ display: 'flex', gap: '15px', marginTop: '10px', color: '#a0a0ab' }}>
+                  <Heart size={18} color="#bb86fc" /> <MessageCircle size={18} />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+    }
+  };
+
   return (
     <>
       <div className="bg-gradient"></div>
@@ -21,55 +97,72 @@ function App() {
 
       <main>
         <section className="hero">
-          <div className="hero-badge">
+          <div className="hero-badge animate-fade-in" style={{ animationDelay: '0.1s' }}>
             <Compass size={16} /> Discover what's happening around you
           </div>
-          <h1 className="hero-title">
+          <h1 className="hero-title animate-fade-in" style={{ animationDelay: '0.2s' }}>
             Connect With Your <span>Local World</span> In Real-Time
           </h1>
-          <p className="hero-subtitle">
-            TrendNearby is the ultimate social platform to discover local events, meet people nearby, and share moments exactly where they happen.
+          <p className="hero-subtitle animate-fade-in" style={{ animationDelay: '0.3s' }}>
+            TrendNearby is an exclusive social platform to discover local events, meet people nearby, and share moments exactly where they happen.
           </p>
           
-          <a id="download" href="/trendnearby.apk" className="btn btn-primary" download>
-            <Download size={24} />
-            Download APK
-          </a>
+          <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
+            <a id="download" href="/trendnearby.apk" className="btn btn-primary" download>
+              <Download size={24} />
+              Download APK
+            </a>
+          </div>
         </section>
 
-        <section className="features-section">
-          <h2 className="section-title">Why TrendNearby?</h2>
-          <div className="grid">
-            <div className="card">
-              <div className="card-icon">
-                <MapPin size={24} />
+        <section 
+          ref={sectionRef} 
+          className={`dynamic-section ${isVisible ? 'animate-fade-in' : ''}`} 
+          style={{ opacity: 0 }}
+        >
+          <h2 className="section-title">Experience TrendNearby</h2>
+          
+          <div className="dynamic-container">
+            <div className="tabs-list">
+              <div 
+                className={`tab-item ${activeTab === 'feed' ? 'active' : ''}`}
+                onClick={() => setActiveTab('feed')}
+              >
+                <div className="tab-icon"><Camera size={24} /></div>
+                <div className="tab-content">
+                  <h3>Share Moments</h3>
+                  <p>Post photos and updates. Tag your location so people nearby can join in on the fun instantly with likes and comments.</p>
+                </div>
               </div>
-              <h3 className="card-title">Location-Based Discovery</h3>
-              <p className="card-text">Find out what's trending right now in your city. View posts, events, and people on an interactive map.</p>
-            </div>
-            
-            <div className="card">
-              <div className="card-icon">
-                <Share2 size={24} />
+
+              <div 
+                className={`tab-item ${activeTab === 'map' ? 'active' : ''}`}
+                onClick={() => setActiveTab('map')}
+              >
+                <div className="tab-icon"><MapPin size={24} /></div>
+                <div className="tab-content">
+                  <h3>Location-Based Discovery</h3>
+                  <p>Find out what's trending right now in your city. View posts, events, and people on an interactive Google Map.</p>
+                </div>
               </div>
-              <h3 className="card-title">Share Moments</h3>
-              <p className="card-text">Post photos and updates. Tag your location so people nearby can join in on the fun instantly.</p>
+
+              <div 
+                className={`tab-item ${activeTab === 'chat' ? 'active' : ''}`}
+                onClick={() => setActiveTab('chat')}
+              >
+                <div className="tab-icon"><MessageCircle size={24} /></div>
+                <div className="tab-content">
+                  <h3>Real-time Chat</h3>
+                  <p>Connect privately with locals through instant messaging, complete with typing indicators and push notifications.</p>
+                </div>
+              </div>
             </div>
 
-            <div className="card">
-              <div className="card-icon">
-                <MessageCircle size={24} />
+            <div className="device-container">
+              <div className="device-mockup">
+                <div className="device-notch"></div>
+                {renderScreen()}
               </div>
-              <h3 className="card-title">Real-time Chat</h3>
-              <p className="card-text">Connect privately with locals through instant messaging, complete with typing indicators and read receipts.</p>
-            </div>
-
-            <div className="card">
-              <div className="card-icon">
-                <Heart size={24} />
-              </div>
-              <h3 className="card-title">Social Interactions</h3>
-              <p className="card-text">Like, comment, and follow your favorite local creators. Get notified instantly when someone interacts with you.</p>
             </div>
           </div>
         </section>
