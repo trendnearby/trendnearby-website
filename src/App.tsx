@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download, MapPin, MessageCircle, Share2, Compass, Zap, Lock } from 'lucide-react';
+import { Download, MapPin, MessageCircle, Share2, Compass, Zap, Lock, Store, Megaphone, Users, TrendingUp } from 'lucide-react';
 import './index.css';
 
 function App() {
@@ -236,6 +236,44 @@ function App() {
               <div className="bento-icon"><Lock size={24} color="#fff" /></div>
               <h3 className="bento-title">Privacy First</h3>
               <p className="bento-text">Your location and data are securely handled. You control exactly who sees your posts and profile.</p>
+            </motion.div>
+          </div>
+        </motion.section>
+
+        {/* Business Section */}
+        <motion.section 
+          className="bento-section"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          style={{ paddingTop: '2rem' }}
+        >
+          <motion.div variants={fadeInUp} className="section-header" style={{ marginBottom: '3rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(3, 218, 198, 0.1)', color: '#03dac6', padding: '0.5rem 1rem', borderRadius: '100px', fontSize: '0.85rem', fontWeight: 600, marginBottom: '1.5rem' }}>
+              <TrendingUp size={16} /> For Local Businesses
+            </div>
+            <h2>Empower Your Local Shop</h2>
+            <p>TrendNearby isn't just for socializing—it's the ultimate tool to drive foot traffic, engage with your community, and boost local sales instantly.</p>
+          </motion.div>
+
+          <div className="bento-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+            <motion.div variants={fadeInUp} className="bento-card" style={{ background: 'linear-gradient(145deg, var(--bg-surface), rgba(3, 218, 198, 0.05))' }}>
+              <div className="bento-icon" style={{ borderColor: 'rgba(3, 218, 198, 0.2)', color: '#03dac6' }}><Store size={24} /></div>
+              <h3 className="bento-title">Storefront Visibility</h3>
+              <p className="bento-text">Pin your shop on the interactive map. When users look for what's trending around them, your business appears right in their neighborhood view.</p>
+            </motion.div>
+
+            <motion.div variants={fadeInUp} className="bento-card" style={{ background: 'linear-gradient(145deg, var(--bg-surface), rgba(187, 134, 252, 0.05))' }}>
+              <div className="bento-icon" style={{ borderColor: 'rgba(187, 134, 252, 0.2)', color: '#bb86fc' }}><Megaphone size={24} /></div>
+              <h3 className="bento-title">Real-time Promotions</h3>
+              <p className="bento-text">Having a slow day? Broadcast a flash sale or daily special instantly to everyone currently within a 5-mile radius of your store.</p>
+            </motion.div>
+
+            <motion.div variants={fadeInUp} className="bento-card" style={{ background: 'linear-gradient(145deg, var(--bg-surface), rgba(255, 255, 255, 0.05))' }}>
+              <div className="bento-icon"><Users size={24} /></div>
+              <h3 className="bento-title">Direct Customer Engagement</h3>
+              <p className="bento-text">Build a dedicated local following. Chat directly with your loyal customers, receive feedback, and foster a tight-knit community.</p>
             </motion.div>
           </div>
         </motion.section>
