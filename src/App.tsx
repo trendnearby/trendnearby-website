@@ -1,184 +1,226 @@
-import { useState, useEffect, useRef } from 'react';
-import { Download, MapPin, MessageCircle, Heart, Compass, ArrowRight, Camera } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Download, MapPin, MessageCircle, Share2, Compass, Zap, Lock } from 'lucide-react';
 import './index.css';
 
 function App() {
   const [activeTab, setActiveTab] = useState('feed');
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.2 }
-    );
-    
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+  // Animation variants
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15
+      }
     }
-    
-    return () => observer.disconnect();
-  }, []);
+  };
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    show: { 
+      opacity: 1, 
+      y: 0,
+      transition: { type: 'spring', stiffness: 100, damping: 20 }
+    }
+  };
+
+  const scaleIn = {
+    hidden: { opacity: 0, scale: 0.95 },
+    show: { 
+      opacity: 1, 
+      scale: 1,
+      transition: { type: 'spring', stiffness: 100, damping: 20 }
+    }
+  };
 
   const renderScreen = () => {
     switch(activeTab) {
       case 'map':
         return (
-          <div className="device-screen">
-            <div className="screen-header">
-              <MapPin size={20} color="#03dac6" /> Nearby Trends
+          <motion.div 
+            key="map"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+            className="device-screen"
+          >
+            <div className="ui-header">
+              <MapPin size={18} color="#fff" /> Nearby Trends
             </div>
-            <div className="screen-body" style={{ padding: 0 }}>
-              <div className="mock-map">
-                <MapPin size={40} className="mock-pin" />
-              </div>
+            <div className="ui-body" style={{ padding: 0, position: 'relative' }}>
+              <div style={{ width: '100%', height: '100%', background: 'radial-gradient(circle at center, rgba(255,255,255,0.1), #0a0a0c)' }}></div>
+              <motion.div 
+                animate={{ y: [0, -10, 0] }} 
+                transition={{ repeat: Infinity, duration: 2 }}
+                style={{ position: 'absolute', top: '50%', left: '50%', x: '-50%', y: '-50%' }}
+              >
+                <MapPin size={32} color="#fff" fill="#fff" />
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         );
       case 'chat':
         return (
-          <div className="device-screen">
-            <div className="screen-header">
-              <MessageCircle size={20} color="#bb86fc" /> Real-time Chat
+          <motion.div 
+            key="chat"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+            className="device-screen"
+          >
+            <div className="ui-header">
+              <MessageCircle size={18} color="#fff" /> Secure Chat
             </div>
-            <div className="screen-body">
-              <div className="mock-chat-bubble">Hey! Are you going to the concert downtown?</div>
-              <div className="mock-chat-bubble right">Yes! It's super crowded here.</div>
-              <div className="mock-chat-bubble">I'm on my way! 🏃</div>
+            <div className="ui-body">
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="ui-chat">
+                Hey! The event downtown is amazing right now.
+              </motion.div>
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="ui-chat self">
+                On my way! 🏃
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         );
       case 'feed':
       default:
         return (
-          <div className="device-screen">
-            <div className="screen-header">
-              <Compass size={20} color="#bb86fc" /> Global Feed
+          <motion.div 
+            key="feed"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+            className="device-screen"
+          >
+            <div className="ui-header">
+              <Compass size={18} color="#fff" /> Global Feed
             </div>
-            <div className="screen-body">
-              <div className="mock-post">
+            <div className="ui-body">
+              <div className="ui-post">
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                  <div className="mock-avatar"></div>
+                  <div className="ui-avatar"></div>
                   <div>
-                    <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Alex_dev</div>
-                    <div style={{ fontSize: '0.75rem', color: '#a0a0ab' }}>2 mins ago • New York</div>
+                    <div style={{ fontWeight: '600', fontSize: '0.9rem' }}>Alex_dev</div>
+                    <div style={{ fontSize: '0.75rem', color: '#888891' }}>2 mins ago • New York</div>
                   </div>
                 </div>
-                <div className="mock-image"></div>
-                <div style={{ display: 'flex', gap: '15px', marginTop: '10px', color: '#a0a0ab' }}>
-                  <Heart size={18} color="#bb86fc" /> <MessageCircle size={18} />
-                </div>
+                <div className="ui-image"></div>
               </div>
             </div>
-          </div>
+          </motion.div>
         );
     }
   };
 
   return (
     <>
-      <div className="bg-gradient"></div>
+      <div className="bg-grid"></div>
+      <div className="bg-glow"></div>
       
       <nav className="navbar">
         <div className="brand">
-          <MapPin size={24} color="#bb86fc" />
+          <MapPin size={22} color="#fff" />
           TrendNearby
         </div>
         <div>
-          <a href="#download" className="btn btn-primary" style={{ padding: '0.6rem 1.2rem', fontSize: '0.9rem' }}>
-            <Download size={18} /> Get App
+          <a href="#download" className="btn btn-secondary">
+            Get App
           </a>
         </div>
       </nav>
 
       <main>
-        <section className="hero">
-          <div className="hero-badge animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            <Compass size={16} /> Discover what's happening around you
-          </div>
-          <h1 className="hero-title animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            Connect With Your <span>Local World</span> In Real-Time
-          </h1>
-          <p className="hero-subtitle animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            TrendNearby is an exclusive social platform to discover local events, meet people nearby, and share moments exactly where they happen.
-          </p>
-          
-          <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            <a id="download" href="/trendnearby.apk" className="btn btn-primary" download>
-              <Download size={24} />
-              Download APK
-            </a>
-          </div>
-        </section>
-
-        <section 
-          ref={sectionRef} 
-          className={`dynamic-section ${isVisible ? 'animate-fade-in' : ''}`} 
-          style={{ opacity: 0 }}
+        {/* Hero Section */}
+        <motion.section 
+          className="hero"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
         >
-          <h2 className="section-title">Experience TrendNearby</h2>
-          
-          <div className="dynamic-container">
-            <div className="tabs-list">
-              <div 
-                className={`tab-item ${activeTab === 'feed' ? 'active' : ''}`}
-                onClick={() => setActiveTab('feed')}
-              >
-                <div className="tab-icon"><Camera size={24} /></div>
-                <div className="tab-content">
-                  <h3>Share Moments</h3>
-                  <p>Post photos and updates. Tag your location so people nearby can join in on the fun instantly with likes and comments.</p>
-                </div>
-              </div>
-
-              <div 
-                className={`tab-item ${activeTab === 'map' ? 'active' : ''}`}
-                onClick={() => setActiveTab('map')}
-              >
-                <div className="tab-icon"><MapPin size={24} /></div>
-                <div className="tab-content">
-                  <h3>Location-Based Discovery</h3>
-                  <p>Find out what's trending right now in your city. View posts, events, and people on an interactive Google Map.</p>
-                </div>
-              </div>
-
-              <div 
-                className={`tab-item ${activeTab === 'chat' ? 'active' : ''}`}
-                onClick={() => setActiveTab('chat')}
-              >
-                <div className="tab-icon"><MessageCircle size={24} /></div>
-                <div className="tab-content">
-                  <h3>Real-time Chat</h3>
-                  <p>Connect privately with locals through instant messaging, complete with typing indicators and push notifications.</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="device-container">
-              <div className="device-mockup">
-                <div className="device-notch"></div>
-                {renderScreen()}
-              </div>
-            </div>
+          <div className="hero-content">
+            <motion.div variants={fadeInUp} className="hero-badge">
+              <Zap size={14} /> The Next-Gen Social Experience
+            </motion.div>
+            <motion.h1 variants={fadeInUp} className="hero-title">
+              Discover your local world, instantly.
+            </motion.h1>
+            <motion.p variants={fadeInUp} className="hero-subtitle">
+              TrendNearby is beautifully engineered to connect you with real-time events, people, and moments happening right around you.
+            </motion.p>
+            
+            <motion.div variants={fadeInUp}>
+              <a id="download" href="/trendnearby.apk" className="btn btn-primary" download>
+                <Download size={20} />
+                Download APK
+              </a>
+            </motion.div>
           </div>
-        </section>
 
-        <section className="hero" style={{ minHeight: '40vh', padding: '4rem 2rem' }}>
-          <h2 className="section-title" style={{ marginBottom: '1.5rem' }}>Ready to explore?</h2>
-          <p className="hero-subtitle">Join thousands of users sharing their local world today.</p>
-          <a href="/trendnearby.apk" className="btn btn-primary" style={{ background: '#fff', color: '#000', boxShadow: '0 0 20px rgba(255,255,255,0.2)' }} download>
-            Start Exploring <ArrowRight size={20} />
-          </a>
-        </section>
+          <motion.div variants={scaleIn} className="hero-visual">
+            <div className="device">
+              <div className="device-notch"></div>
+              <AnimatePresence mode="wait">
+                {renderScreen()}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </motion.section>
+
+        {/* Bento Box Section */}
+        <motion.section 
+          className="bento-section"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+        >
+          <motion.div variants={fadeInUp} className="section-header">
+            <h2>Engineered for connection.</h2>
+            <p>Everything you need to experience your city like never before, built with uncompromising performance and privacy.</p>
+          </motion.div>
+
+          <div className="bento-grid">
+            <motion.div variants={fadeInUp} className="bento-card bento-large">
+              <div className="bento-content">
+                <div className="bento-icon"><Compass size={24} color="#fff" /></div>
+                <h3 className="bento-title">Interactive Experience</h3>
+                <p className="bento-text">Switch between different views instantly. See what's happening near you in real-time, completely optimized for speed and fluidity.</p>
+                
+                <div className="tabs-container">
+                  <button className={`tab-btn ${activeTab === 'feed' ? 'active' : ''}`} onClick={() => setActiveTab('feed')}>
+                    <Share2 size={18} /> Share Moments
+                  </button>
+                  <button className={`tab-btn ${activeTab === 'map' ? 'active' : ''}`} onClick={() => setActiveTab('map')}>
+                    <MapPin size={18} /> Interactive Map
+                  </button>
+                  <button className={`tab-btn ${activeTab === 'chat' ? 'active' : ''}`} onClick={() => setActiveTab('chat')}>
+                    <MessageCircle size={18} /> Secure Chat
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div variants={fadeInUp} className="bento-card">
+              <div className="bento-icon"><Zap size={24} color="#fff" /></div>
+              <h3 className="bento-title">Lightning Fast</h3>
+              <p className="bento-text">Built natively for Android to ensure smooth scrolling, instant photo uploads, and zero lag.</p>
+            </motion.div>
+
+            <motion.div variants={fadeInUp} className="bento-card">
+              <div className="bento-icon"><Lock size={24} color="#fff" /></div>
+              <h3 className="bento-title">Privacy First</h3>
+              <p className="bento-text">Your location and data are securely handled. You control exactly who sees your posts and profile.</p>
+            </motion.div>
+          </div>
+        </motion.section>
       </main>
 
       <footer>
         <p>&copy; {new Date().getFullYear()} TrendNearby. All rights reserved.</p>
-        <p style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>An Android exclusive social experience.</p>
       </footer>
     </>
   );
