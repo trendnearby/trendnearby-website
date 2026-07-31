@@ -161,7 +161,7 @@ function App() {
           </div>
 
           <motion.div variants={scaleIn} className="hero-visual">
-            <div className="device" style={{ transform: 'rotate(5deg) scale(0.9)', boxShadow: '0 30px 60px -15px rgba(255,255,255,0.1)' }}>
+            <div className="device" style={{ transform: 'scale(0.9)', boxShadow: '0 30px 60px -15px rgba(255,255,255,0.1)' }}>
               <div className="device-notch"></div>
               <div className="device-screen">
                 <div className="ui-header">

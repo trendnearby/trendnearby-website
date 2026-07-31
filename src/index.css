@@ -336,6 +336,7 @@ body {
   padding-top: 50px;
   display: flex;
   flex-direction: column;
+  z-index: 10;
 }
 
 /* In-device UI */
