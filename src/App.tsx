@@ -1,10 +1,17 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download, MapPin, MessageCircle, Share2, Compass, Zap, Lock, Store, Megaphone, Users, TrendingUp } from 'lucide-react';
+import { Download, MapPin, MessageCircle, Share2, Compass, Zap, Lock, Store, Megaphone, Users, TrendingUp, Loader2 } from 'lucide-react';
 import './index.css';
 
 function App() {
   const [activeTab, setActiveTab] = useState('feed');
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownload = () => {
+    setIsDownloading(true);
+    // Reset after 3 seconds when download has initiated
+    setTimeout(() => setIsDownloading(false), 3000);
+  };
 
   // Animation variants
   const staggerContainer = {
@@ -153,9 +160,18 @@ function App() {
             </motion.p>
             
             <motion.div variants={fadeInUp}>
-              <a id="download" href="/trendnearby.apk" className="btn btn-primary" download>
-                <Download size={20} />
-                Download APK
+              <a id="download" href="/trendnearby.apk" className="btn btn-primary" download onClick={handleDownload} style={{ minWidth: '200px', justifyContent: 'center' }}>
+                {isDownloading ? (
+                  <>
+                    <Loader2 size={20} className="animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <Download size={20} />
+                    Download APK
+                  </>
+                )}
               </a>
             </motion.div>
           </div>
