@@ -31,7 +31,7 @@ function App() {
             TrendNearby is the ultimate social platform to discover local events, meet people nearby, and share moments exactly where they happen.
           </p>
           
-          <a id="download" href="https://example.com/trendnearby.apk" className="btn btn-primary">
+          <a id="download" href="/trendnearby.apk" className="btn btn-primary" download>
             <Download size={24} />
             Download APK
           </a>
@@ -77,7 +77,7 @@ function App() {
         <section className="hero" style={{ minHeight: '40vh', padding: '4rem 2rem' }}>
           <h2 className="section-title" style={{ marginBottom: '1.5rem' }}>Ready to explore?</h2>
           <p className="hero-subtitle">Join thousands of users sharing their local world today.</p>
-          <a href="https://example.com/trendnearby.apk" className="btn btn-primary" style={{ background: '#fff', color: '#000', boxShadow: '0 0 20px rgba(255,255,255,0.2)' }}>
+          <a href="/trendnearby.apk" className="btn btn-primary" style={{ background: '#fff', color: '#000', boxShadow: '0 0 20px rgba(255,255,255,0.2)' }} download>
             Start Exploring <ArrowRight size={20} />
           </a>
         </section>
