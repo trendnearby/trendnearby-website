@@ -161,11 +161,25 @@ function App() {
           </div>
 
           <motion.div variants={scaleIn} className="hero-visual">
-            <div className="device">
+            <div className="device" style={{ transform: 'rotate(5deg) scale(0.9)', boxShadow: '0 30px 60px -15px rgba(255,255,255,0.1)' }}>
               <div className="device-notch"></div>
-              <AnimatePresence mode="wait">
-                {renderScreen()}
-              </AnimatePresence>
+              <div className="device-screen">
+                <div className="ui-header">
+                  <Compass size={18} color="#fff" /> TrendNearby Beta
+                </div>
+                <div className="ui-body">
+                  <div className="ui-post" style={{ marginBottom: '1rem' }}>
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                      <div className="ui-avatar" style={{ background: 'linear-gradient(45deg, #bb86fc, #03dac6)' }}></div>
+                      <div>
+                        <div style={{ fontWeight: '600', fontSize: '0.9rem' }}>@trending_now</div>
+                        <div style={{ fontSize: '0.75rem', color: '#888891' }}>Live • 5k watching</div>
+                      </div>
+                    </div>
+                    <div className="ui-image" style={{ height: '200px', background: 'radial-gradient(circle at center, rgba(3, 218, 198, 0.2), #121216)' }}></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </motion.div>
         </motion.section>
@@ -200,6 +214,14 @@ function App() {
                   <button className={`tab-btn ${activeTab === 'chat' ? 'active' : ''}`} onClick={() => setActiveTab('chat')}>
                     <MessageCircle size={18} /> Secure Chat
                   </button>
+                </div>
+              </div>
+              <div className="bento-visual">
+                <div className="device" style={{ transform: 'scale(0.85)', transformOrigin: 'right center' }}>
+                  <div className="device-notch"></div>
+                  <AnimatePresence mode="wait">
+                    {renderScreen()}
+                  </AnimatePresence>
                 </div>
               </div>
             </motion.div>
