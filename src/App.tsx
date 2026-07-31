@@ -22,7 +22,7 @@ function App() {
     show: { 
       opacity: 1, 
       y: 0,
-      transition: { type: 'spring', stiffness: 100, damping: 20 }
+      transition: { type: 'spring' as const, stiffness: 100, damping: 20 }
     }
   };
 
@@ -31,7 +31,7 @@ function App() {
     show: { 
       opacity: 1, 
       scale: 1,
-      transition: { type: 'spring', stiffness: 100, damping: 20 }
+      transition: { type: 'spring' as const, stiffness: 100, damping: 20 }
     }
   };
 
