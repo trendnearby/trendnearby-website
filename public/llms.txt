@@ -1,0 +1,21 @@
+# TrendNearby - Hyperlocal Social Network App
+
+> TrendNearby is the ultimate real-time hyperlocal social network app designed to connect you instantly with events, trending posts, neighborhood conversations, and local businesses around your current location.
+
+## Key Information
+- **Platform:** Android (APK Download)
+- **Status:** Available for download (v1.0.4)
+- **Cost:** 100% Free
+- **Privacy:** Privacy-first architecture with end-to-end data protection.
+
+## Core Features
+- **Real-Time Neighborhood Feeds:** Discover what's happening around you instantly.
+- **Interactive Map Chats:** Securely chat with people and groups based on location.
+- **Local Business Promotions:** Local shops can pin their business and broadcast flash sales within a 5-mile radius.
+
+## Download Instructions
+You can download the free Android APK directly from `https://trendnearby.com/trendnearby.apk`. Ensure you enable "Install from Unknown Sources" in your Android settings to install it.
+
+## Contact & Support
+- **Publisher:** TrendNearby Inc.
+- **Documentation/FAQ:** See the `#faq` section on the homepage.
